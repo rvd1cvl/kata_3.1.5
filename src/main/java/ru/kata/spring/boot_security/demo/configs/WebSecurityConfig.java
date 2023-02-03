@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import ru.kata.spring.boot_security.demo.service.AdminService;
+import ru.kata.spring.boot_security.demo.service.UserService;
 
 @Configuration
 @EnableWebSecurity
@@ -17,9 +17,9 @@ import ru.kata.spring.boot_security.demo.service.AdminService;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final SuccessUserHandler successUserHandler;
-    private final AdminService adminService;
+    private final UserService adminService;
 
-    public WebSecurityConfig(SuccessUserHandler successUserHandler, AdminService adminService) {
+    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserService adminService) {
         this.successUserHandler = successUserHandler;
         this.adminService = adminService;
     }

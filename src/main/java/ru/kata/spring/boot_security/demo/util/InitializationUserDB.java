@@ -5,7 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.service.AdminService;
+import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 
 import javax.annotation.PostConstruct;
@@ -14,11 +14,11 @@ import java.util.Set;
 
 @Component
 public class InitializationUserDB {
-    private final AdminService adminService;
+    private final UserService adminService;
     private final RoleService roleService;
 
     @Autowired
-    public InitializationUserDB(AdminService adminService, RoleService roleService) {
+    public InitializationUserDB(UserService adminService, RoleService roleService) {
         this.adminService = adminService;
         this.roleService = roleService;
     }

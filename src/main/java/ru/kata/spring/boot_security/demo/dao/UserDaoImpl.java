@@ -10,7 +10,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
-public class AdminDaoImpl implements AdminDao {
+public class UserDaoImpl implements UserDao {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -18,7 +18,6 @@ public class AdminDaoImpl implements AdminDao {
     @Override
     public void add(User user) {
         entityManager.persist(user);
-
     }
 
     @Override
@@ -36,11 +35,12 @@ public class AdminDaoImpl implements AdminDao {
 
     @Override
     public void updateUser(int id, User newUser) {
-
-        User user = getUser(id);
-        user.setName(newUser.getName());
-        user.setLastName(newUser.getLastName());
-        entityManager.merge(user);
+        User oldUser = getUser(id);
+        oldUser.setName(newUser.getName());
+        oldUser.setLastName(newUser.getLastName());
+        oldUser.setUsername(newUser.getUsername());
+        oldUser.setRoles(newUser.getRoles());
+        oldUser.setPassword(newUser.getPassword());
     }
 
     @Override
@@ -54,8 +54,6 @@ public class AdminDaoImpl implements AdminDao {
 
     @Override
     public List<User> getAllUsers() {
-
-        TypedQuery<User> query = entityManager.createQuery("from User", User.class);
-        return query.getResultList();
+        return entityManager.createQuery("from User", User.class).getResultList();
     }
 }

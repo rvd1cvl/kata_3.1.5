@@ -1,21 +1,20 @@
 package ru.kata.spring.boot_security.demo.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.kata.spring.boot_security.demo.dao.AdminDao;
+import ru.kata.spring.boot_security.demo.dao.UserDao;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.List;
 
 @Service
 @Transactional
-public class AdminServiceImpl implements AdminService {
-    private final AdminDao adminDao;
+public class UserServiceImpl implements UserService {
+    private final UserDao adminDao;
 
-    @Autowired
-    public AdminServiceImpl(AdminDao adminDao) {
+
+    public UserServiceImpl(UserDao adminDao) {
         this.adminDao = adminDao;
     }
 
@@ -49,7 +48,7 @@ public class AdminServiceImpl implements AdminService {
         return adminDao.getAllUsers();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public UserDetails loadUserByUsername(String username) {
         return adminDao.findByUsername(username);

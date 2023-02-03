@@ -22,7 +22,7 @@ public class RoleDaoImpl implements RoleDao {
     }
 
     @Override
-    public Set<Role> getRoleById(Integer[] role_id) {
+    public Set<Role> getRoles(Integer[] role_id) {
         Set<Role> roleResult = new HashSet<>();
         if (role_id == null) {
             roleResult.add(entityManager.find(Role.class, 1));
