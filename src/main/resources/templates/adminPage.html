@@ -41,8 +41,10 @@
             <br>
             <a href="/admin" class="btn btn-link btn-primary" aria-pressed="true"
                style="color: white; font-family: sans-serif">Users Table</a>
-            <a href="/new" class="btn btn-link btn-primary" aria-pressed="true"
-               style="color: white; font-family: sans-serif">New User</a>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#newModal">
+                <span style="color: white; font-family: sans-serif">New User</span>
+            </button>
             <br>
             <table class="table table-hover">
                 <thead>
@@ -163,31 +165,31 @@
                                 Id
                             </span>
                         </label>
-                        <input type="Id" class="form-control" id="exampleInputId" aria-describedby="IdHelp">
+                        <input type="Id" class="form-control" id="exampleInputId1" aria-describedby="IdHelp">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputName" class="form-label">
                             First name
                         </label>
-                        <input type="name" class="form-control" id="exampleInputName">
+                        <input type="name" class="form-control" id="exampleInputName1">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputLastName" class="form-label">
                             Last name
                         </label>
-                        <input type="age" class="form-control" id="exampleInputLastName">
+                        <input type="lastName" class="form-control" id="exampleInputLastName1">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputAge" class="form-label">
                             Age
                         </label>
-                        <input type="age" class="form-control" id="exampleInputAge">
+                        <input type="age" class="form-control" id="exampleInputAge1">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail" class="form-label">
                             Email
                         </label>
-                        <input type="email" class="form-control" id="exampleInputEmail">
+                        <input type="email" class="form-control" id="exampleInputEmail1">
                     </div>
                     <div>
                         <span style="color: black; font-family: sans-serif">Role</span>
@@ -212,6 +214,66 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="newModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span style="font-family: sans-serif; color: black">Edit user</span>
+                <button type="button" class="btn" data-bs-dismiss="modal" aria-label="Закрыть">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="exampleInputId" class="form-label">
+                            <span style="font-family: sans-serif; color: black">
+                                Id
+                            </span>
+                        </label>
+                        <input type="Id" class="form-control" id="exampleInputId1" aria-describedby="IdHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputName" class="form-label">
+                            First name
+                        </label>
+                        <input type="name" class="form-control" id="exampleInputName1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputLastName" class="form-label">
+                            Last name
+                        </label>
+                        <input type="lastName" class="form-control" id="exampleInputLastName1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputAge" class="form-label">
+                            Age
+                        </label>
+                        <input type="age" class="form-control" id="exampleInputAge1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail" class="form-label">
+                            Email
+                        </label>
+                        <input type="email" class="form-control" id="exampleInputEmail1">
+                    </div>
+                    <div>
+                        <span style="color: black; font-family: sans-serif">Role</span>
+                        <select class="form-select" aria-label="Пример выбора по умолчанию">
+                            <option selected></option>
+                            <option value="1">ADMIN</option>
+                            <option value="2">USER</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success">
+                    <span style="color: white; font-family: sans-serif">Add new user</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
         crossorigin="anonymous"></script>
