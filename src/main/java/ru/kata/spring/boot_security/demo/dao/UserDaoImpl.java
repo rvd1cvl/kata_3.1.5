@@ -6,7 +6,6 @@ import ru.kata.spring.boot_security.demo.model.User;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
@@ -38,14 +37,14 @@ public class UserDaoImpl implements UserDao {
         User oldUser = getUser(id);
         oldUser.setName(newUser.getName());
         oldUser.setLastName(newUser.getLastName());
-        oldUser.setUsername(newUser.getUsername());
+        oldUser.setEmail(newUser.getEmail());
         oldUser.setRoles(newUser.getRoles());
         oldUser.setPassword(newUser.getPassword());
     }
 
     @Override
     public User findByUsername(String username) {
-        return entityManager.createQuery("select user from User user where user.username = :username", User.class)
+        return entityManager.createQuery("select user from User user where user.email = :username", User.class)
                 .setParameter("username", username)
                 .getSingleResult();
     }

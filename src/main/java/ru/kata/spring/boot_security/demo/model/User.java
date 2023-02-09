@@ -23,11 +23,14 @@ public class User implements UserDetails {
     @Column(name = "lastName")
     private String lastName;
 
-    @Column()
-    private String username;
+    @Column(name = "email")
+    private String email;
 
-    @Column
+    @Column(name = "password")
     private String password;
+
+    @Column(name = "age")
+    private Integer age;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_roles",
@@ -39,20 +42,38 @@ public class User implements UserDetails {
 
     }
 
-    public User(String name, String lastName, String username, String password, Set<Role> roles) {
+    public User(String name, String lastName, String email, Integer age, String password, Set<Role> roles) {
         this.name = name;
         this.lastName = lastName;
-        this.username = username;
+        this.email = email;
+        this.age = age;
         this.password = password;
         this.roles = roles;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public String getRolesToString() {
+        StringBuilder sb = new StringBuilder();
+        for (Role role : roles) {
+            sb.append(role);
+            sb.append(" ");
+        }
+        return sb.toString();
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String username) {
+        this.email = username;
     }
 
     public void setPassword(String password) {
@@ -99,7 +120,11 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     @Override
@@ -113,7 +138,7 @@ public class User implements UserDetails {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", username='" + username + '\'' +
+                ", username='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", roles=" + roles +
                 '}';
@@ -139,11 +164,12 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id && Objects.equals(name, user.name) && Objects.equals(lastName, user.lastName) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(roles, user.roles);
+        return id == user.id && Objects.equals(name, user.name) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, lastName, username, password, roles);
+        return Objects.hash(id, name, lastName, email, password, roles);
     }
+
 }

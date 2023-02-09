@@ -21,63 +21,65 @@ import java.util.List;
 @RequestMapping()
 public class AdminController {
 
-    private final UserService adminService;
+    private final UserService userService;
     private final RoleService roleService;
 
-    public AdminController(UserService adminService, RoleService roleService) {
-        this.adminService = adminService;
+    public AdminController(UserService userService, RoleService roleService) {
+        this.userService = userService;
         this.roleService = roleService;
     }
 
     @GetMapping("/admin")
-    public String showAllUsers(Model model) {
-        List<User> users = adminService.getAllUsers();
+    public String showAllUsers(Model model, Principal principal) {
+        List<User> users = userService.getAllUsers();
         model.addAttribute("users", users);
-        return "index";
+        model.addAttribute("user", userService.loadUserByUsername(principal.getName()));
+        return "adminPage";
     }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
-        model.addAttribute("person", adminService.getUser(id));
+        model.addAttribute("person", userService.getUser(id));
         return "user";
     }
 
     @GetMapping("/new")
-    public String newUser(Model model) {
-        model.addAttribute("user", new User());
-        return "/new";
+    public String newUser(Model model, Principal principal) {
+        model.addAttribute("newUser", new User());
+        model.addAttribute("user", userService.loadUserByUsername(principal.getName()));
+        return "newUser";
     }
 
     @PostMapping("/create")
     public String createUser(@ModelAttribute("user") User user) {
-        adminService.add(user);
+        userService.add(user);
         return "redirect:/admin";
     }
 
     @PatchMapping("/update/{id}")
     public String updateUser(@ModelAttribute("user") User user, @PathVariable(name = "id") int id) {
-        adminService.updateUser(id, user);
+        userService.updateUser(id, user);
         return "redirect:/admin";
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/editUser/{id}")
     public ModelAndView showEditProductForm(@PathVariable(name = "id") int id) {
 
         ModelAndView modelAndView = new ModelAndView("edit");
-        User user = adminService.getUser(id);
+        User user = userService.getUser(id);
 
         modelAndView.addObject("user", user);
         return modelAndView;
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/deleteUser/{id}")
     public String delete(@PathVariable(name = "id") int id) {
-        adminService.delete(id);
-        return "redirect:/admin";
+        userService.delete(id);
+        return "deleteUser";
     }
     @GetMapping("/myInfo")
     public String showUserInfo(Principal principal, Model model) {
-        model.addAttribute("user", adminService.loadUserByUsername(principal.getName()));
+        model.addAttribute("user", userService.loadUserByUsername(principal.getName()));
         return "userInfo";
     }
 }
