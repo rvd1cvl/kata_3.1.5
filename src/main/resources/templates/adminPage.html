@@ -93,45 +93,37 @@
                 <button type="button" class="btn" data-bs-dismiss="modal" aria-label="Закрыть">&times;</button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="exampleInputId" class="form-label">
-                            <span style="font-family: sans-serif; color: black">
-                                Id
-                            </span>
-                        </label>
-                        <input type="Id" class="form-control" id="exampleInputId" aria-describedby="IdHelp">
+                <form action="@{/users/update}" th:object="${user}">
+                    <input type="hidden" name="id" th:id="id">
+                    <div class="form-group">
+                        <label th:for="email" class="col-form-label">Email</label>
+                        <input type="text" class="form-control" name="email" id="email">
                     </div>
-                    <div class="mb-3">
-                        <label for="exampleInputName" class="form-label">
-                            First name
-                        </label>
-                        <input type="name" class="form-control" id="exampleInputName">
+                    <div class="form-group">
+                        <label th:for="name" class="col-form-label">First Name</label>
+                        <input type="text" class="form-control" name="email" id="name">
                     </div>
-                    <div class="mb-3">
-                        <label for="exampleInputLastName" class="form-label">
-                            Last name
-                        </label>
-                        <input type="age" class="form-control" id="exampleInputLastName">
+                    <div class="form-group">
+                        <label th:for="lastName" class="col-form-label">Last name</label>
+                        <input type="text" class="form-control" name="email" id="lastName">
                     </div>
-                    <div class="mb-3">
-                        <label for="exampleInputAge" class="form-label">
-                            Age
-                        </label>
-                        <input type="age" class="form-control" id="exampleInputAge">
+                    <div class="form-group">
+                        <label th:for="age" class="col-form-label">Age</label>
+                        <input type="text" class="form-control" name="age" id="agel">
                     </div>
-                    <div class="mb-3">
-                        <label for="exampleInputEmail" class="form-label">
-                            Email
-                        </label>
-                        <input type="email" class="form-control" id="exampleInputEmail">
+                    <div class="form-group">
+                        <label th:for="roles" class="col-form-label">Password</label>
+                        <input type="text" class="form-control" name="password" id="password">
                     </div>
-                    <div>
-                        <span style="color: black; font-family: sans-serif">Role</span>
-                        <select class="form-select" aria-label="Пример выбора по умолчанию">
-                            <option selected></option>
-                            <option value="1">ADMIN</option>
-                            <option value="2">USER</option>
+                    <div class="form-group">
+                        <p>Role</p>
+                        <select class="form-select" name="rolesSelected" multiple>
+                            <option disabled selected>Open this select menu</option>
+                            <div th:each="role : ${roles}">
+                                <option th:text="${role.getName()}"
+                                th:value="${role.getId()}"
+                                th:field="${roles}"></option>
+                            </div>
                         </select>
                     </div>
                 </form>
@@ -140,10 +132,15 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Закрыть">
                     <span style="font-family: sans-serif; color: white">Close</span>
                 </button>
-                <button type="submit" class="btn btn-primary">
-                    <span style="font-family: sans-serif; color: white">
-                        Edit
-                    </span>
+                <button type="button" class="btn btn-primary" data-toggle="modal"
+                        data-target="#editModal" th:data-id="${user.id}"
+                        th:data-email="${user.email}"
+                        th:data-name="${user.name}"
+                        th:data-lastName="${user.lastName}"
+                        th:data-age="${user.age}"
+                        th:data-password="${user.password}"
+                        th:data-roles="${user.getRolesToString()}">
+                    Edit
                 </button>
             </div>
         </div>
@@ -273,7 +270,25 @@
         </div>
     </div>
 </div>
-
+<script>
+    $('#editUserModal').on('show.bs.modal', function (event) {
+        const button = $(event.relatedTarget)
+        const userId = button.data(id)
+        const email = button.data(email)
+        const userFirstname = button.data('firstname')
+        const userLastName = button.data('lastName')
+        const userAge = button.data('age')
+        const userPassword = button.data('password')
+        const modal = $(this)
+        modal.find('.modal-title').text('Delete user' + email)
+        modal.find('#id').val(userId)
+        modal.find('#email').val(email)
+        modal.find('#firstName').val(userFirstname)
+        modal.find('#lastName').val(userLastName)
+        modal.find('#age').val(userAge)
+        modal.find('#password').val(userPassword)
+    })
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
         crossorigin="anonymous"></script>
