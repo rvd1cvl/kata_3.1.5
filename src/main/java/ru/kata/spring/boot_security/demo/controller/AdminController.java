@@ -35,7 +35,6 @@ public class AdminController {
     }
 
 
-
     @GetMapping(value = "users/add")
     public String addUser(@ModelAttribute("user") User user, @RequestParam(name = "rolesSelected", defaultValue = "0") Integer[] rolesId) {
         Set<Role> roles = new HashSet<>(roleService.getRoles(rolesId));
@@ -50,8 +49,8 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @RequestMapping(value = "users/update", method = {RequestMethod.GET, RequestMethod.PATCH})
-    public String updateUser(User user, @RequestParam(name = "rolesSelected") Integer[] rolesId) {
+    @RequestMapping(value = "users/update", method = RequestMethod.POST)
+    public String updateUser(User user, Integer[] rolesId) {
         Set<Role> roles = new HashSet<>(roleService.getRoles(rolesId));
         user.setRoles(roles);
         userService.updateUser(user.getId(), user);
