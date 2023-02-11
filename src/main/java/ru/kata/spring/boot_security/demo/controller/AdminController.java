@@ -2,10 +2,8 @@ package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
@@ -52,8 +50,8 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping(value = "users/update")
-    public String updateUser(User user, @RequestParam(name = "rolesSelected", defaultValue = "0") Integer[] rolesId) {
+    @RequestMapping(value = "users/update", method = {RequestMethod.GET, RequestMethod.PATCH})
+    public String updateUser(User user, @RequestParam(name = "rolesSelected") Integer[] rolesId) {
         Set<Role> roles = new HashSet<>(roleService.getRoles(rolesId));
         user.setRoles(roles);
         userService.updateUser(user.getId(), user);

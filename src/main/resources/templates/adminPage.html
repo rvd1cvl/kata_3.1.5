@@ -92,7 +92,7 @@
                 <span style="font-family: sans-serif; color: black">Edit user</span>
             </div>
             <div class="modal-body">
-                <form action="@{/users/update}" th:object="${user}" id="updateFormId" method="post">
+                <form th:action="@{/users/update}" th:object="${user}" id="updateFormId" method="post">
                     <input type="hidden" name="id" th:field="*{id}" th:id="id">
                     <div class="form-group">
                         <label th:for="email" class="col-form-label">Email</label>
@@ -139,7 +139,7 @@
     $('#updateModal').on('show.bs.modal', function (event) {
         const button = $(event.relatedTarget)
         const id = button.data(id)
-        const email = button.data(email)
+        const userEmail = button.data(email)
         const name = button.data('firstname')
         const lastName = button.data('lastName')
         const age = button.data('age')
