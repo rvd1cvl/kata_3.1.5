@@ -68,7 +68,7 @@
                     <td th:utext="${user.getRolesToString()}"></td>
                     <td>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#editModal">
+                                data-bs-target="#updateModal">
                             <span style="color: white; font-family: sans-serif">Edit</span>
                         </button>
                     </td>
@@ -85,19 +85,18 @@
     </div>
 </div>
 
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <span style="font-family: sans-serif; color: black">Edit user</span>
-                <button type="button" class="btn" data-bs-dismiss="modal" aria-label="Закрыть">&times;</button>
             </div>
             <div class="modal-body">
-                <form action="@{/users/update}" th:object="${user}">
-                    <input type="hidden" name="id" th:id="id">
+                <form action="@{/users/update}" th:object="${user}" id="updateFormId" method="post">
+                    <input type="hidden" name="id" th:field="*{id}" th:id="id">
                     <div class="form-group">
                         <label th:for="email" class="col-form-label">Email</label>
-                        <input type="text" class="form-control" name="email" id="email">
+                        <input type="text" th:field="*{email}" class="form-control" name="email" id="email">
                     </div>
                     <div class="form-group">
                         <label th:for="name" class="col-form-label">First Name</label>
@@ -121,164 +120,30 @@
                             <option disabled selected>Open this select menu</option>
                             <div th:each="role : ${roles}">
                                 <option th:text="${role.getName()}"
-                                th:value="${role.getId()}"
-                                th:field="${roles}"></option>
+                                        th:value="${role.getId()}"
+                                        th:field="${roles}"></option>
                             </div>
                         </select>
                     </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Закрыть">
-                    <span style="font-family: sans-serif; color: white">Close</span>
-                </button>
-                <button type="button" class="btn btn-primary" data-toggle="modal"
-                        data-target="#editModal" th:data-id="${user.id}"
-                        th:data-email="${user.email}"
-                        th:data-name="${user.name}"
-                        th:data-lastName="${user.lastName}"
-                        th:data-age="${user.age}"
-                        th:data-password="${user.password}"
-                        th:data-roles="${user.getRolesToString()}">
-                    Edit
-                </button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" form="updateFormId" class="btn btn-primary">Edit</button>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span style="font-family: sans-serif; color: black">Edit user</span>
-                <button type="button" class="btn" data-bs-dismiss="modal" aria-label="Закрыть">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="exampleInputId" class="form-label">
-                            <span style="font-family: sans-serif; color: black">
-                                Id
-                            </span>
-                        </label>
-                        <input type="Id" class="form-control" id="exampleInputId1" aria-describedby="IdHelp">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputName" class="form-label">
-                            First name
-                        </label>
-                        <input type="name" class="form-control" id="exampleInputName1">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputLastName" class="form-label">
-                            Last name
-                        </label>
-                        <input type="lastName" class="form-control" id="exampleInputLastName1">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputAge" class="form-label">
-                            Age
-                        </label>
-                        <input type="age" class="form-control" id="exampleInputAge1">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputEmail" class="form-label">
-                            Email
-                        </label>
-                        <input type="email" class="form-control" id="exampleInputEmail1">
-                    </div>
-                    <div>
-                        <span style="color: black; font-family: sans-serif">Role</span>
-                        <select class="form-select" aria-label="Пример выбора по умолчанию">
-                            <option selected></option>
-                            <option value="1">ADMIN</option>
-                            <option value="2">USER</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Закрыть">
-                    <span style="font-family: sans-serif; color: white">Close</span>
-                </button>
-                <button type="submit" class="btn btn-danger">
-                    <span style="font-family: sans-serif; color: white">
-                        Delete
-                    </span>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="newModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span style="font-family: sans-serif; color: black">Edit user</span>
-                <button type="button" class="btn" data-bs-dismiss="modal" aria-label="Закрыть">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="exampleInputId" class="form-label">
-                            <span style="font-family: sans-serif; color: black">
-                                Id
-                            </span>
-                        </label>
-                        <input type="Id" class="form-control" id="exampleInputId1" aria-describedby="IdHelp">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputName" class="form-label">
-                            First name
-                        </label>
-                        <input type="name" class="form-control" id="exampleInputName1">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputLastName" class="form-label">
-                            Last name
-                        </label>
-                        <input type="lastName" class="form-control" id="exampleInputLastName1">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputAge" class="form-label">
-                            Age
-                        </label>
-                        <input type="age" class="form-control" id="exampleInputAge1">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputEmail" class="form-label">
-                            Email
-                        </label>
-                        <input type="email" class="form-control" id="exampleInputEmail1">
-                    </div>
-                    <div>
-                        <span style="color: black; font-family: sans-serif">Role</span>
-                        <select class="form-select" aria-label="Пример выбора по умолчанию">
-                            <option selected></option>
-                            <option value="1">ADMIN</option>
-                            <option value="2">USER</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-success">
-                    <span style="color: white; font-family: sans-serif">Add new user</span>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
 <script>
-    $('#editUserModal').on('show.bs.modal', function (event) {
+    $('#updateModal').on('show.bs.modal', function (event) {
         const button = $(event.relatedTarget)
-        const userId = button.data(id)
+        const id = button.data(id)
         const email = button.data(email)
-        const userFirstname = button.data('firstname')
-        const userLastName = button.data('lastName')
-        const userAge = button.data('age')
-        const userPassword = button.data('password')
+        const name = button.data('firstname')
+        const lastName = button.data('lastName')
+        const age = button.data('age')
+        const password = button.data('password')
         const modal = $(this)
         modal.find('.modal-title').text('Delete user' + email)
         modal.find('#id').val(userId)
