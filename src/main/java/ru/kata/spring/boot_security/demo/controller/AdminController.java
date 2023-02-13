@@ -29,8 +29,11 @@ public class AdminController {
     @GetMapping("/admin")
     public String showAllUsers(Model model, Principal principal) {
         List<User> users = userService.getAllUsers();
-        model.addAttribute("user", userService.loadUserByUsername(principal.getName()));
+        model.addAttribute("activeUser", userService.loadUserByUsername(principal.getName()));
         model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("user", new User());
+        List<Role> roles = roleService.getAllRoles();
+        model.addAttribute("roles", roles);
         return "adminPage";
     }
 
@@ -41,6 +44,7 @@ public class AdminController {
         user.setRoles(roles);
         userService.add(user);
         return "redirect:/admin";
+
     }
 
     @GetMapping(value = "users/delete")

@@ -10,9 +10,9 @@
 <div class="container-fluid" style="background-color: #282828; padding: 10px;">
     <div class="row">
         <div class="col-md-11">
-            <span style="color: white; font-family: sans-serif" th:utext="${user.getEmail()}"></span>
+            <span style="color: white; font-family: sans-serif" th:utext="${activeUser.getEmail()}"></span>
             <span style="color: white; font-family: sans-serif"> with roles: </span>
-            <span style="color: white; font-family: sans-serif" th:utext="${user.getRolesToString()}"></span>
+            <span style="color: white; font-family: sans-serif" th:utext="${activeUser.getRolesToString()}"></span>
         </div>
         <div class="col-md-1">
             <form action="@{/logout}" method="post">
@@ -59,7 +59,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="user :${users}">
+                <tr th:each="user, state : ${users}" th:classappend="${state.odd}">
                     <td th:utext="${user.Id}"></td>
                     <td th:utext="${user.name}"></td>
                     <td th:utext="${user.lastName}"></td>
