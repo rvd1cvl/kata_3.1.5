@@ -1,56 +1,85 @@
 package ru.kata.spring.boot_security.demo.service;
 
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import ru.kata.spring.boot_security.demo.dao.UserDao;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.repository.RoleRepository;
+import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
 
+
 @Service
-@Transactional
 public class UserServiceImpl implements UserService {
-    private final UserDao userDao;
 
+    private final RoleRepository roleRepository;
 
-    public UserServiceImpl(UserDao userDao) {
-        this.userDao = userDao;
+    private final UserRepository userRepository;
+
+    @PersistenceContext
+    private final EntityManager entityManager;
+
+    public UserServiceImpl(RoleRepository roleRepository, UserRepository userRepository, EntityManager entityManager) {
+        this.roleRepository = roleRepository;
+        this.userRepository = userRepository;
+        this.entityManager = entityManager;
     }
 
-    @Transactional
-    @Override
-    public void add(User user) {
-        userDao.add(user);
-    }
 
-    @Transactional
-    @Override
-    public void delete(int id) {
-        userDao.delete(id);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public User getUser(int id) {
-        return userDao.getUser(id);
-    }
-
-    @Transactional
-    @Override
-    public void updateUser(int id, User newUser) {
-        userDao.updateUser(id, newUser);
+    public User getById(int id) {
+        return userRepository.findById(id).get();
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<User> getAllUsers() {
-        return userDao.getAllUsers();
+    public User getByUsername(String username) {
+        return userRepository.findByEmail(username);
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    public UserDetails loadUserByUsername(String username) {
-        return userDao.findByUsername(username);
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
+
+    public void deleteById(int id) {
+        userRepository.deleteById(id);
+    }
+
+    public List<Role> getAllRoles() {
+        return new ArrayList<>(roleRepository.findAll());
+    }
+
+    @Override
+    public List<Role> getRolesById(Integer[] rolesId) {
+        List<Role> roleResult = new ArrayList<>();
+        if (rolesId == null) {
+            roleResult.add(entityManager.find(Role.class, 1));
+        } else {
+            for (int id : rolesId) {
+                TypedQuery<Role> query = entityManager.createQuery("select role from Role role where role.id= :id", Role.class)
+                        .setParameter("id", id);
+                Role result = query.getResultList().stream().filter(role -> role.getId() == id).findAny().orElse(null);
+                roleResult.add(result);
+            }
+        }
+        return roleResult;
+    }
+
+    public void saveUser(User user) {
+        userRepository.save(user);
+    }
+
+    public void updateUser(User updatedUser) {
+        userRepository.save(updatedUser);
+    }
+
+    @Override
+    public void saveRole(Role role) {
+        roleRepository.save(role);
+    }
+
 }

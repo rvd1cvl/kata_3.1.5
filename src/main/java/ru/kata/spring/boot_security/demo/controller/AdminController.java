@@ -52,7 +52,7 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @RequestMapping(value = "users/update", method = RequestMethod.POST)
+    @RequestMapping(value = "users/update")
     public String updateUser(@ModelAttribute("user") User user, Integer[] rolesId) {
         Set<Role> roles = new HashSet<>(userService.getRolesById(rolesId));
         user.setRoles(roles);
