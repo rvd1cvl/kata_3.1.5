@@ -17,11 +17,11 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final SuccessUserHandler successUserHandler;
-    private final UserService adminService;
+    private final UserService userService;
 
-    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserService adminService) {
+    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserService adminService, UserService userService) {
         this.successUserHandler = successUserHandler;
-        this.adminService = adminService;
+        this.userService = userService;
     }
 
     @Override
@@ -52,6 +52,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public UserDetailsService userDetailsService() {
 
-        return adminService::loadUserByUsername;
+        return userService::getByUsername;
     }
 }

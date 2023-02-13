@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
-import ru.kata.spring.boot_security.demo.service.RoleService;
 
 import javax.annotation.PostConstruct;
 import java.util.HashSet;
@@ -14,13 +13,12 @@ import java.util.Set;
 
 @Component
 public class InitializationUserDB {
-    private final UserService adminService;
-    private final RoleService roleService;
+    private final UserService userService;
 
     @Autowired
-    public InitializationUserDB(UserService adminService, RoleService roleService) {
-        this.adminService = adminService;
-        this.roleService = roleService;
+    public InitializationUserDB(UserService userService) {
+        this.userService = userService;
+
     }
 
     @PostConstruct
@@ -29,8 +27,8 @@ public class InitializationUserDB {
         Role role1 = new Role("ADMIN");
         Role role2 = new Role("USER");
 
-        roleService.saveRole(role1);
-        roleService.saveRole(role2);
+        userService.saveRole(role1);
+        userService.saveRole(role2);
 
         Set<Role> userRole = new HashSet<>();
         userRole.add(role2);
@@ -43,7 +41,7 @@ public class InitializationUserDB {
         User user = new User("Биба", "Бибович", "1234", 18, new BCryptPasswordEncoder(8).encode("1234"), adminRole);
 
         System.out.println(admin.toString());
-        adminService.add(admin);
-        adminService.add(user);
+        userService.saveUser(admin);
+        userService.saveUser(user);
     }
 }

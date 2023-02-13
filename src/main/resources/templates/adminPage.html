@@ -92,14 +92,14 @@
                 <span style="font-family: sans-serif; color: black">Edit user</span>
             </div>
             <div class="modal-body">
-                <form th:action="@{/users/update}" th:each="user : ${users}" id="updateFormId" method="post">
+                <form th:action="@{/users/update}" th:each="user, state : ${users}" th:classappend="${state.odd}" id="updateFormId" method="post">
                     <input type="hidden" name="id" th:field="*{user.id}" th:id="id">
                     <div class="form-group">
                         <label th:for="email" class="col-form-label">Email</label>
                         <input type="text" th:field="*{user.email}" class="form-control" name="email" id="email">
                     </div>
                     <div class="form-group">
-                        <label th:for="name" class="col-form-label">First Name</label>
+                        <label  th:for="name" class="col-form-label">First Name</label>
                         <input type="text" th:field="${user.name}" class="form-control" name="name" id="name">
                     </div>
                     <div class="form-group">
@@ -138,20 +138,20 @@
 <script>
     $('#updateModal').on('show.bs.modal', function (event) {
         const button = $(event.relatedTarget)
-        const id = button.data(id)
-        const email = button.data(email)
+        const id = button.data('id')
+        const email = button.data('email')
         const name = button.data('firstname')
         const lastName = button.data('lastName')
         const age = button.data('age')
         const password = button.data('password')
         const modal = $(this)
         modal.find('.modal-title').text('Delete user' + email)
-        modal.find('#id').val(userId)
-        modal.find('#email').val(email)
-        modal.find('#firstName').val(userFirstname)
-        modal.find('#lastName').val(userLastName)
-        modal.find('#age').val(userAge)
-        modal.find('#password').val(userPassword)
+        modal.find('#id').val(id)
+        modal.find('##email').val(email)
+        modal.find('#name').val(name)
+        modal.find('#lastName').val(lastName)
+        modal.find('#age').val(age)
+        modal.find('#password').val(password)
     })
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
