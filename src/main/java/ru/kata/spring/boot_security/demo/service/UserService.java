@@ -15,6 +15,6 @@ public interface UserService {
     List<Role> getAllRoles();
     List<Role> getRolesById(Integer[] rolesId);
     void saveUser(User user);
-    void updateUser(User updatedUser);
+    void updateUser(User updatedUser, Integer oldUserId);
     void saveRole(Role role);
 }

@@ -8,6 +8,8 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
@@ -20,9 +22,13 @@ public class AdminController {
     private final UserService userService;
     private final UserRepository userRepository;
 
-    public AdminController(UserService userService, UserRepository userRepository) {
+    @PersistenceContext
+    private final EntityManager entityManager;
+
+    public AdminController(UserService userService, UserRepository userRepository, EntityManager entityManager) {
         this.userService = userService;
         this.userRepository = userRepository;
+        this.entityManager = entityManager;
     }
 
     @GetMapping("/admin")
@@ -53,10 +59,8 @@ public class AdminController {
     }
 
     @RequestMapping(value = "users/update")
-    public String updateUser(@ModelAttribute("user") User user, Integer[] rolesId) {
-        Set<Role> roles = new HashSet<>(userService.getRolesById(rolesId));
-        user.setRoles(roles);
-        userService.updateUser(user);
+    public String updateUser(@ModelAttribute("user") User newUser, Integer oldUserId) {
+        userService.updateUser(newUser, oldUserId);
         return "redirect:/admin";
     }
 }
