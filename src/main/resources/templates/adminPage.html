@@ -92,31 +92,28 @@
                 <span style="font-family: sans-serif; color: black">Edit user</span>
             </div>
             <div class="modal-body">
-                <form th:action="@{/users/update}" id="updateFormId" method="post" th:each="user, state : ${users}"
-                      th:classappend="${state.odd}">
+                <form th:action="@{/users/update}" id="updateFormId" method="patch">
                     <input type="text" readonly="readonly" name="oldUserId" th:value="*{user.id}" class="form-control"
                            id="oldUserId">
                     <div class="form-group">
                         <label th:for="email" class="col-form-label">Email</label>
-                        <input type="text" th:value="*{user.email}" class="form-control" name="email" id="email">
+                        <input type="text" th:value="*{user.email}" class="form-control" name="email">
                     </div>
                     <div class="form-group">
                         <label th:for="name" class="col-form-label">First Name</label>
-                        <input type="text" th:value="${user.name}" class="form-control" name="name" id="name">
+                        <input type="text" th:value="${user.name}" class="form-control" name="name">
                     </div>
                     <div class="form-group">
                         <label th:for="lastName" class="col-form-label">Last name</label>
-                        <input type="text" th:value="${user.lastName}" class="form-control" name="lastName"
-                               id="lastName">
+                        <input type="text" th:value="${user.lastName}" class="form-control" name="lastName">
                     </div>
                     <div class="form-group">
                         <label th:for="age" class="col-form-label">Age</label>
-                        <input type="text" th:value="${user.age}" class="form-control" name="age" id="age">
+                        <input type="text" th:value="${user.age}" class="form-control" name="age">
                     </div>
                     <div class="form-group">
                         <label th:for="password" class="col-form-label">Password</label>
-                        <input type="text" th:value="${user.password}" class="form-control" name="password"
-                               id="password">
+                        <input type="text" th:value="${user.password}" class="form-control" name="password">
                     </div>
                     <div class="form-group">
                         <p>Role</p>
@@ -139,8 +136,74 @@
     </div>
 </div>
 
+<div class="modal fade" id="newModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span style="font-family: sans-serif; color: black">New user</span>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/users/add}" id="newUserFormId" method="patch">
+                    <div class="form-group">
+                        <label th:for="email" class="col-form-label">Email</label>
+                        <input type="text" th:value="*{user.email}" class="form-control" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label th:for="name" class="col-form-label">First Name</label>
+                        <input type="text" th:value="${user.name}" class="form-control" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label th:for="lastName" class="col-form-label">Last name</label>
+                        <input type="text" th:value="${user.lastName}" class="form-control" name="lastName">
+                    </div>
+                    <div class="form-group">
+                        <label th:for="age" class="col-form-label">Age</label>
+                        <input type="text" th:value="${user.age}" class="form-control" name="age">
+                    </div>
+                    <div class="form-group">
+                        <label th:for="password" class="col-form-label">Password</label>
+                        <input type="text" th:value="${user.password}" class="form-control" name="password">
+                    </div>
+                    <div class="form-group">
+                        <p>Role</p>
+                        <select class="form-select" name="roles" multiple>
+                            <option disabled selected>Open this select menu</option>
+                            <div th:each="role : ${roles}">
+                                <option th:text="${role.getName()}"
+                                        th:value="${role.getId()}"
+                                        th:field="${roles}"></option>
+                            </div>
+                        </select>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" form="newUserFormId" class="btn btn-primary">Edit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $('#updateModal').on('show.bs.modal', function (event) {
+        const button = $(event.relatedTarget)
+        const id = button.data('id')
+        const email = button.data('email')
+        const name = button.data('name')
+        const lastName = button.data('lastName')
+        const age = button.data('age')
+        const password = button.data('password')
+        const modal = $(this)
+        modal.find('.modal-title').text('Edit' + email)
+        modal.find('#id').val(id)
+        modal.find('#email').val(email)
+        modal.find('#name').val(name)
+        modal.find('#lastName').val(lastName)
+        modal.find('#age').val(age)
+        modal.find('#password').val(password)
+    })
+    $('#deleteModal').on('show.bs.modal', function (event) {
         const button = $(event.relatedTarget)
         const id = button.data('id')
         const email = button.data('email')
@@ -152,6 +215,22 @@
         modal.find('.modal-title').text('Delete user' + email)
         modal.find('#id').val(id)
         modal.find('##email').val(email)
+        modal.find('#name').val(name)
+        modal.find('#lastName').val(lastName)
+        modal.find('#age').val(age)
+        modal.find('#password').val(password)
+    })
+    $('#newModal').on('show.bs.modal', function (event) {
+        const button = $(event.relatedTarget)
+        const id = button.data('id')
+        const email = button.data('email')
+        const name = button.data('name')
+        const lastName = button.data('lastName')
+        const age = button.data('age')
+        const password = button.data('password')
+        const modal = $(this)
+        modal.find('#id').val(id)
+        modal.find('#email').val(email)
         modal.find('#name').val(name)
         modal.find('#lastName').val(lastName)
         modal.find('#age').val(age)

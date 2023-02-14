@@ -44,7 +44,7 @@ public class AdminController {
 
 
     @GetMapping(value = "users/add")
-    public String addUser(@ModelAttribute("user") User user, @RequestParam(name = "rolesSelected", defaultValue = "0") Integer[] rolesId) {
+    public String addUser(@ModelAttribute("user") User user, @RequestParam(name = "roles") Integer[] rolesId) {
         Set<Role> roles = new HashSet<>(userService.getRolesById(rolesId));
         user.setRoles(roles);
         userService.saveUser(user);
