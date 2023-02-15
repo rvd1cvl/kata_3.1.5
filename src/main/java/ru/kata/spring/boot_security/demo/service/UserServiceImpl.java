@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public void deleteById(int id) {
-        userRepository.deleteById(id);
+        entityManager.createQuery("delete from User where user.id = :id").setParameter("id", id).executeUpdate();
     }
 
     public List<Role> getAllRoles() {

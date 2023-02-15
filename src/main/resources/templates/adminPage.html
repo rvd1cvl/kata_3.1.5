@@ -59,7 +59,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="user : ${users}">
+                <tr th:each="user, state : ${users}" th:classappend="${state.odd}">
                     <td th:utext="${user.Id}"></td>
                     <td th:utext="${user.name}"></td>
                     <td th:utext="${user.lastName}"></td>
@@ -68,13 +68,13 @@
                     <td th:utext="${user.getRolesToString()}"></td>
                     <td>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                th:data-bs-target="#updateModal+${user.id}">
+                                th:data-bs-target="'#updateModal' + ${user.id}">
                             <span style="color: white; font-family: sans-serif">Edit</span>
                         </button>
                     </td>
                     <td>
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                data-bs-target="#deleteModal">
+                                th:data-bs-target="'#deleteModal' + ${user.id}">
                             <span style="color: white; font-family: sans-serif">Delete</span>
                         </button>
                     </td>
@@ -85,7 +85,7 @@
     </div>
 </div>
 
-<div class="modal fade" th:id="updateModal+ ${user.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+<div class="modal fade" th:id="'updateModal' + ${user.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
      th:each="user, state : ${users}" th:classappend="${state.odd}">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -136,7 +136,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+<div class="modal fade" th:id="'deleteModal' + ${user.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
      th:each="user, state : ${users}" th:classappend="${state.odd}">
     <div class="modal-dialog">
         <div class="modal-content">
