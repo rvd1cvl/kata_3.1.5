@@ -68,7 +68,7 @@
                     <td th:utext="${user.getRolesToString()}"></td>
                     <td>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#updateModal">
+                                th:data-bs-target="#updateModal+${user.id}">
                             <span style="color: white; font-family: sans-serif">Edit</span>
                         </button>
                     </td>
@@ -85,7 +85,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+<div class="modal fade" th:id="updateModal+ ${user.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
      th:each="user, state : ${users}" th:classappend="${state.odd}">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -173,7 +173,7 @@
                 </form>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" form="updateFormId" class="btn btn-danger">Delete</button>
+                    <button type="submit" form="deleteUserFormId" class="btn btn-danger">Delete</button>
                 </div>
             </div>
         </div>
@@ -229,58 +229,6 @@
     </div>
 </div>
 
-<script>
-    $('#updateModal').on('show.bs.modal', function (event) {
-        const button = $(event.relatedTarget)
-        const id = button.data('id')
-        const email = button.data('email')
-        const name = button.data('name')
-        const lastName = button.data('lastName')
-        const age = button.data('age')
-        const password = button.data('password')
-        const modal = $(this)
-        modal.find('.modal-title').text('Edit' + email)
-        modal.find('#id').val(id)
-        modal.find('#email').val(email)
-        modal.find('#name').val(name)
-        modal.find('#lastName').val(lastName)
-        modal.find('#age').val(age)
-        modal.find('#password').val(password)
-    })
-    $('#deleteModal').on('show.bs.modal', function (event) {
-        const button = $(event.relatedTarget)
-        const id = button.data('id')
-        const email = button.data('email')
-        const name = button.data('name')
-        const lastName = button.data('lastName')
-        const age = button.data('age')
-        const password = button.data('password')
-        const modal = $(this)
-        modal.find('.modal-title').text('Delete user' + email)
-        modal.find('#id').val(id)
-        modal.find('#email').val(email)
-        modal.find('#name').val(name)
-        modal.find('#lastName').val(lastName)
-        modal.find('#age').val(age)
-        modal.find('#password').val(password)
-    })
-    $('#newModal').on('show.bs.modal', function (event) {
-        const button = $(event.relatedTarget)
-        const id = button.data('id')
-        const email = button.data('email')
-        const name = button.data('name')
-        const lastName = button.data('lastName')
-        const age = button.data('age')
-        const password = button.data('password')
-        const modal = $(this)
-        modal.find('#id').val(id)
-        modal.find('#email').val(email)
-        modal.find('#name').val(name)
-        modal.find('#lastName').val(lastName)
-        modal.find('#age').val(age)
-        modal.find('#password').val(password)
-    })
-</script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
         crossorigin="anonymous"></script>

@@ -33,7 +33,6 @@ public class AdminController {
 
     @GetMapping("/admin")
     public String showAllUsers(Model model, Principal principal) {
-        List<User> users = userService.findAll();
         model.addAttribute("activeUser", userService.getByUsername(principal.getName()));
         model.addAttribute("users", userService.findAll());
         model.addAttribute("user", new User());
