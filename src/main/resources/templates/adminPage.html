@@ -136,6 +136,49 @@
     </div>
 </div>
 
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span style="font-family: sans-serif; color: black">Edit user</span>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/users/delete}" th:each="user, state : ${users}" th:classappend="${state.odd}" id="deleteUserFormId" method="patch">
+                    <input type="text" readonly="readonly" name="oldUserId" th:value="*{user.id}" class="form-control">
+                    <div class="form-group">
+                        <label th:for="email" class="col-form-label">Email</label>
+                        <input type="text" readonly="readonly" th:value="*{user.email}" class="form-control" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label th:for="name" class="col-form-label">First Name</label>
+                        <input type="text" readonly="readonly"  th:value="${user.name}" class="form-control" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label th:for="lastName" class="col-form-label">Last name</label>
+                        <input type="text" readonly="readonly"  th:value="${user.lastName}" class="form-control" name="lastName">
+                    </div>
+                    <div class="form-group">
+                        <label th:for="age" class="col-form-label">Age</label>
+                        <input type="text" readonly="readonly"  th:value="${user.age}" class="form-control" name="age">
+                    </div>
+                    <div class="form-group">
+                        <label th:for="password" class="col-form-label">Password</label>
+                        <input type="text" readonly="readonly"  th:value="${user.password}" class="form-control" name="password">
+                    </div>
+                    <div class="form-group">
+                        <label th:for="roles" class="col-form-label">Roles</label>
+                        <input type="text" readonly="readonly"  th:value="${user.getRolesToString()}" class="form-control" name="roles">
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" form="updateFormId" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="newModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -178,7 +221,7 @@
                 </form>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" form="newUserFormId" class="btn btn-primary">Edit</button>
+                    <button type="submit" form="deleteUserFormId" class="btn btn-success">Add new user</button>
                 </div>
             </div>
         </div>
@@ -207,14 +250,14 @@
         const button = $(event.relatedTarget)
         const id = button.data('id')
         const email = button.data('email')
-        const name = button.data('firstname')
+        const name = button.data('name')
         const lastName = button.data('lastName')
         const age = button.data('age')
         const password = button.data('password')
         const modal = $(this)
         modal.find('.modal-title').text('Delete user' + email)
         modal.find('#id').val(id)
-        modal.find('##email').val(email)
+        modal.find('#email').val(email)
         modal.find('#name').val(name)
         modal.find('#lastName').val(lastName)
         modal.find('#age').val(age)
