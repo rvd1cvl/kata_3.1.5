@@ -59,7 +59,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="user, state : ${users}" th:classappend="${state.odd}">
+                <tr th:each="user : ${users}">
                     <td th:utext="${user.Id}"></td>
                     <td th:utext="${user.name}"></td>
                     <td th:utext="${user.lastName}"></td>
@@ -85,16 +85,16 @@
     </div>
 </div>
 
-<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+     th:each="user, state : ${users}" th:classappend="${state.odd}">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <span style="font-family: sans-serif; color: black">Edit user</span>
             </div>
             <div class="modal-body">
-                <form th:action="@{/users/update}" th:each="user, state : ${users}" th:classappend="${state.odd}" id="updateFormId" method="patch">
-                    <input type="text" readonly="readonly" name="oldUserId" th:value="*{user.id}" class="form-control"
-                           id="oldUserId">
+                <form th:action="@{/users/update}" id="updateFormId" method="patch">
+                    <input type="text" readonly="readonly" name="oldUserId" th:value="*{user.id}" class="form-control">
                     <div class="form-group">
                         <label th:for="email" class="col-form-label">Email</label>
                         <input type="text" th:value="*{user.email}" class="form-control" name="email">
@@ -136,14 +136,15 @@
     </div>
 </div>
 
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+     th:each="user, state : ${users}" th:classappend="${state.odd}">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <span style="font-family: sans-serif; color: black">Edit user</span>
             </div>
             <div class="modal-body">
-                <form th:action="@{/users/delete}" th:each="user, state : ${users}" th:classappend="${state.odd}" id="deleteUserFormId" method="patch">
+                <form th:action="@{/users/delete}" id="deleteUserFormId" method="patch">
                     <input type="text" readonly="readonly" name="oldUserId" th:value="*{user.id}" class="form-control">
                     <div class="form-group">
                         <label th:for="email" class="col-form-label">Email</label>
