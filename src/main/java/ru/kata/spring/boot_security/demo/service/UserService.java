@@ -17,4 +17,5 @@ public interface UserService {
     void saveUser(User user);
     void updateUser(User updatedUser, Integer oldUserId);
     void saveRole(Role role);
+    void addUser(User user);
 }

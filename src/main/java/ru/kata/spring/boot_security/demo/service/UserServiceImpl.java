@@ -91,4 +91,9 @@ public class UserServiceImpl implements UserService {
         roleRepository.save(role);
     }
 
+    @Override
+    public void addUser(User user) {
+        userRepository.save(user);
+    }
+
 }

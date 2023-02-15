@@ -43,10 +43,8 @@ public class AdminController {
     }
 
 
-    @GetMapping(value = "users/add")
-    public String addUser(@ModelAttribute("user") User user, @RequestParam(name = "roles") Integer[] rolesId) {
-        Set<Role> roles = new HashSet<>(userService.getRolesById(rolesId));
-        user.setRoles(roles);
+    @RequestMapping(value = "users/add")
+    public String addUser(@ModelAttribute("user") User user) {
         userService.saveUser(user);
         return "redirect:/admin";
 
