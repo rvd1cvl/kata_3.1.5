@@ -92,7 +92,7 @@
                 <span style="font-family: sans-serif; color: black">Edit user</span>
             </div>
             <div class="modal-body">
-                <form th:action="@{/users/update}" id="updateFormId" method="patch">
+                <form th:action="@{/users/update}" th:each="user, state : ${users}" th:classappend="${state.odd}" id="updateFormId" method="patch">
                     <input type="text" readonly="readonly" name="oldUserId" th:value="*{user.id}" class="form-control"
                            id="oldUserId">
                     <div class="form-group">
