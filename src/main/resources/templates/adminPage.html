@@ -86,7 +86,7 @@
 </div>
 
 <div class="modal fade" th:id="'updateModal' + ${user.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-     th:each="user, state : ${users}" th:classappend="${state.odd}">
+     th:each="user, state : ${users}" th:classappend="${state.odd}" >
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
