@@ -45,10 +45,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
-    public void deleteById(int id) {
-        entityManager.createQuery("delete from User where user.id = :id").setParameter("id", id).executeUpdate();
-    }
-
     public List<Role> getAllRoles() {
         return new ArrayList<>(roleRepository.findAll());
     }
@@ -94,6 +90,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addUser(User user) {
         userRepository.save(user);
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        userRepository.deleteById(id);
     }
 
 }

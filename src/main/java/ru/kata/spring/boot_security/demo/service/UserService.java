@@ -11,11 +11,11 @@ public interface UserService {
     User getById(int id);
     User getByUsername(String username);
     List<User> findAll();
-    void deleteById(int id);
     List<Role> getAllRoles();
     List<Role> getRolesById(Integer[] rolesId);
     void saveUser(User user);
     void updateUser(User updatedUser, Integer oldUserId);
     void saveRole(Role role);
     void addUser(User user);
+    void deleteById(Integer id);
 }
