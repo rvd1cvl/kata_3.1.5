@@ -18,4 +18,5 @@ public interface UserService {
     void saveRole(Role role);
     void addUser(User user);
     void deleteById(Integer id);
+    void remove(User uSer);
 }
