@@ -1,8 +1,12 @@
 package ru.kata.spring.boot_security.demo.service;
 
+import org.springframework.security.core.Transient;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
@@ -16,17 +20,16 @@ import java.util.List;
 
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
-    private final RoleRepository roleRepository;
 
     private final UserRepository userRepository;
 
     @PersistenceContext
     private final EntityManager entityManager;
 
-    public UserServiceImpl(RoleRepository roleRepository, UserRepository userRepository, EntityManager entityManager) {
-        this.roleRepository = roleRepository;
+    public UserServiceImpl(UserRepository userRepository, EntityManager entityManager) {
         this.userRepository = userRepository;
         this.entityManager = entityManager;
     }
@@ -45,25 +48,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
-    public List<Role> getAllRoles() {
-        return new ArrayList<>(roleRepository.findAll());
-    }
-
-    @Override
-    public List<Role> getRolesById(Integer[] rolesId) {
-        List<Role> roleResult = new ArrayList<>();
-        if (rolesId == null) {
-            roleResult.add(entityManager.find(Role.class, 1));
-        } else {
-            for (int id : rolesId) {
-                TypedQuery<Role> query = entityManager.createQuery("select role from Role role where role.id= :id", Role.class)
-                        .setParameter("id", id);
-                Role result = query.getResultList().stream().filter(role -> role.getId() == id).findAny().orElse(null);
-                roleResult.add(result);
-            }
-        }
-        return roleResult;
-    }
 
     public void saveUser(User user) {
         userRepository.save(user);
@@ -83,11 +67,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveRole(Role role) {
-        roleRepository.save(role);
-    }
-
-    @Override
     public void addUser(User user) {
         userRepository.save(user);
     }
@@ -103,4 +82,8 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByEmail(username);
+    }
 }
