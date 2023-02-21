@@ -3,9 +3,7 @@ package ru.kata.spring.boot_security.demo.controller;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.dto.UserDto;
 import ru.kata.spring.boot_security.demo.model.Role;
@@ -59,14 +57,15 @@ public class AdminController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "users/update")
-    public ResponseEntity<HttpStatus> updateUser(@RequestBody UserDto userDto, Integer oldUserId) {
+    @RequestMapping(value = "users/update/{id}")
+    public ResponseEntity<HttpStatus> updateUser(@RequestBody UserDto userDto, @PathVariable("id") Integer oldUserId) {
         userService.updateUser(convertToUser(userDto), oldUserId);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     private User convertToUser(UserDto userDto) {
         ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(userDto, User.class);
+        return modelMapper.map(userDto, User.class );
     }
+
 }
