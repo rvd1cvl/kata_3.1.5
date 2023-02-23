@@ -1,15 +1,36 @@
 package ru.kata.spring.boot_security.demo.dto;
 
+import javax.persistence.Column;
+
 public class UserDto {
+    private int id;
+
     private String name;
 
     private String lastName;
 
     private String email;
 
+    private String password;
+
     private Integer age;
 
-    private String password;
+    public UserDto(int id, String name, String lastName, String email, String password, Integer age) {
+        this.id = id;
+        this.name = name;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.age = age;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -17,14 +38,6 @@ public class UserDto {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getLastName() {
@@ -41,6 +54,14 @@ public class UserDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Integer getAge() {

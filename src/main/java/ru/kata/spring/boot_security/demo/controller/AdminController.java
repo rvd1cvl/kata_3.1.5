@@ -1,12 +1,12 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.dto.UserDto;
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 import ru.kata.spring.boot_security.demo.service.RoleService;
@@ -14,11 +14,10 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping()
+@RequestMapping("/api")
 public class AdminController {
 
     private final UserService userService;
@@ -35,37 +34,55 @@ public class AdminController {
         this.entityManager = entityManager;
     }
 
-    @GetMapping("/admin")
-    public ResponseEntity<HttpStatus> showAllUsers(Model model, Principal principal) {
-        model.addAttribute("users", userService.findAll());
-        model.addAttribute("user", new User());
-        List<Role> roles = roleService.getAllRoles();
-        model.addAttribute("roles", roles);
+    @GetMapping("/users")
+    public ResponseEntity<List<User>> showAllUsers() {
+        List<User> users = userService.findAll();
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @GetMapping("/users/{id}")
+    public ResponseEntity<User> getOneUser(@PathVariable("id") Integer id) {
+        User user = userService.getById(id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @PostMapping("/users")
+    public ResponseEntity<HttpStatus> addUser(@RequestBody UserDto userDto,
+                                              BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        try {
+            userService.addUser(convertToUser(userDto));
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (DataIntegrityViolationException e) {
+            System.out.println("User with this data already exists");
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "users/{id}")
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") Integer id) {
+        userService.deleteById(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PostMapping(value = "users/add")
-    public ResponseEntity<HttpStatus> addUser(@RequestBody UserDto userDto) {
-        userService.saveUser(convertToUser(userDto));
-        return ResponseEntity.ok(HttpStatus.OK);
-
-    }
-
-    @DeleteMapping(value = "users/delete")
-    public ResponseEntity<HttpStatus> deleteUser(@RequestBody UserDto userDto) {
-        userService.remove(convertToUser(userDto));
-        return ResponseEntity.ok(HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "users/update/{id}")
-    public ResponseEntity<HttpStatus> updateUser(@RequestBody UserDto userDto, @PathVariable("id") Integer oldUserId) {
-        userService.updateUser(convertToUser(userDto), oldUserId);
-        return ResponseEntity.ok(HttpStatus.OK);
+    @RequestMapping(value = "users/{id}")
+    public ResponseEntity<HttpStatus> updateUser(@RequestBody UserDto userDto, @PathVariable("id") Integer oldUserId,
+                                                 BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        try {
+            userService.updateUser(convertToUser(userDto), oldUserId);
+            return ResponseEntity.ok(HttpStatus.OK);
+        } catch (DataIntegrityViolationException e) {
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     private User convertToUser(UserDto userDto) {
         ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(userDto, User.class );
+        return modelMapper.map(userDto, User.class);
     }
-
 }
