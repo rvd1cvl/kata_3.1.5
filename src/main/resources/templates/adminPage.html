@@ -58,35 +58,17 @@
                 <th scope="col">Delete</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr th:each="user, state : ${users}" th:classappend="${state.odd}">
-                    <td th:utext="${user.Id}"></td>
-                    <td th:utext="${user.name}"></td>
-                    <td th:utext="${user.lastName}"></td>
-                    <td th:utext="${user.age}"></td>
-                    <td th:utext="${user.email}"></td>
-                    <td th:utext="${user.getRolesToString()}"></td>
-                    <td>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                th:data-bs-target="'#updateModal' + ${user.id}">
-                            <span style="color: white; font-family: sans-serif">Edit</span>
-                        </button>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                th:data-bs-target="'#deleteModal' + ${user.id}">
-                            <span style="color: white; font-family: sans-serif">Delete</span>
-                        </button>
-                    </td>
-                </tr>
+                <tbody id="tbody">
+
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
-<div class="modal fade" th:id="'updateModal' + ${user.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-     th:each="user, state : ${users}" th:classappend="${state.odd}" >
+<div class="modal fade" th:id="'updateModal' + ${user.id}" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true"
+     th:each="user, state : ${users}" th:classappend="${state.odd}">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -136,7 +118,8 @@
     </div>
 </div>
 
-<div class="modal fade" th:id="'deleteModal' + ${user.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+<div class="modal fade" th:id="'deleteModal' + ${user.id}" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true"
      th:each="user, state : ${users}" th:classappend="${state.odd}">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -148,23 +131,26 @@
                     <input type="text" readonly="readonly" name="id" th:value="*{user.id}" class="form-control">
                     <div class="form-group">
                         <label th:for="email" class="col-form-label">Email</label>
-                        <input type="text" readonly="readonly" th:value="*{user.email}" class="form-control" name="email">
+                        <input type="text" readonly="readonly" th:value="*{user.email}" class="form-control"
+                               name="email">
                     </div>
                     <div class="form-group">
                         <label th:for="name" class="col-form-label">First Name</label>
-                        <input type="text" readonly="readonly"  th:value="${user.name}" class="form-control" name="name">
+                        <input type="text" readonly="readonly" th:value="${user.name}" class="form-control" name="name">
                     </div>
                     <div class="form-group">
                         <label th:for="lastName" class="col-form-label">Last name</label>
-                        <input type="text" readonly="readonly"  th:value="${user.lastName}" class="form-control" name="lastName">
+                        <input type="text" readonly="readonly" th:value="${user.lastName}" class="form-control"
+                               name="lastName">
                     </div>
                     <div class="form-group">
                         <label th:for="age" class="col-form-label">Age</label>
-                        <input type="text" readonly="readonly"  th:value="${user.age}" class="form-control" name="age">
+                        <input type="text" readonly="readonly" th:value="${user.age}" class="form-control" name="age">
                     </div>
                     <div class="form-group">
                         <label th:for="password" class="col-form-label">Password</label>
-                        <input type="text" readonly="readonly"  th:value="${user.password}" class="form-control" name="password">
+                        <input type="text" readonly="readonly" th:value="${user.password}" class="form-control"
+                               name="password">
                     </div>
                     <div class="form-group">
                         <span th:text="${user.getRolesToString()}"></span>
@@ -172,7 +158,8 @@
                 </form>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" th:form="'deleteUserFormId' + ${user.id}" class="btn btn-danger">Delete</button>
+                    <button type="submit" th:form="'deleteUserFormId' + ${user.id}" class="btn btn-danger">Delete
+                    </button>
                 </div>
             </div>
         </div>
@@ -228,12 +215,15 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
-        integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
-<script src="js/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script src="static/adminPage.js"></script>
 </body>
 </html>

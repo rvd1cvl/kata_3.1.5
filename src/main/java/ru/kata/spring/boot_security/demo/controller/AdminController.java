@@ -17,7 +17,8 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/admin")
+@CrossOrigin
 public class AdminController {
 
     private final UserService userService;
