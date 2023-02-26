@@ -42,7 +42,7 @@
             <a href="/admin" class="btn btn-link btn-primary" aria-pressed="true"
                style="color: white; font-family: sans-serif">Users Table</a>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                    data-bs-target="#newModal">
+                    data-bs-target="#newModal" onclick="newUser()">
                 <span style="color: white; font-family: sans-serif">New User</span>
             </button>
             <br>
@@ -168,42 +168,39 @@
                 <span style="font-family: sans-serif; color: black">New user</span>
             </div>
             <div class="modal-body">
-                <form th:action="@{/users/add}" id="newUserFormId" th:method="post">
+                <form id="formForNewUser">
                     <div class="form-group">
-                        <label th:for="email" class="col-form-label">Email</label>
-                        <input type="text" th:value="*{user.email}" class="form-control" name="email">
+                        <label for="email" class="col-form-label">Email</label>
+                        <input id="email" type="text" class="form-control" name="email">
                     </div>
                     <div class="form-group">
-                        <label th:for="name" class="col-form-label">First Name</label>
-                        <input type="text" th:value="${user.name}" class="form-control" name="name">
+                        <label for="name" class="col-form-label">First Name</label>
+                        <input id="name" type="text" class="form-control" name="name">
                     </div>
                     <div class="form-group">
-                        <label th:for="lastName" class="col-form-label">Last name</label>
-                        <input type="text" th:value="${user.lastName}" class="form-control" name="lastName">
+                        <label for="lastName" class="col-form-label">Last name</label>
+                        <input id="lastName" type="text" class="form-control" name="lastName">
                     </div>
                     <div class="form-group">
-                        <label th:for="age" class="col-form-label">Age</label>
-                        <input type="text" th:value="${user.age}" class="form-control" name="age">
+                        <label for="age" class="col-form-label">Age</label>
+                        <input id="age" type="text" class="form-control" name="age">
                     </div>
                     <div class="form-group">
-                        <label th:for="password" class="col-form-label">Password</label>
-                        <input type="text" th:value="${user.password}" class="form-control" name="password">
+                        <label for="password" class="col-form-label">Password</label>
+                        <input id="password" type="text" class="form-control" name="password">
                     </div>
                     <div class="form-group">
-                        <p>Role</p>
-                        <select class="form-select" name="roles" multiple>
-                            <option disabled selected>Open this select menu</option>
-                            <div th:each="role : ${roles}">
-                                <option th:text="${role.getName()}"
-                                        th:value="${role.getId()}"
-                                        th:field="${roles}"></option>
-                            </div>
+                        <label class="row font-weight-bold justify-content-center" for="roles">Role</label>
+                        <select multiple class="form-control" size="2"  id="roles" name="roles">
+
+                            <option id="roleNewUser" value="USER">USER</option>
+                            <option id="roleNewAdmin" value="ADMIN">ADMIN</option>
                         </select>
                     </div>
                 </form>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" form="newUserFormId" class="btn btn-success">Add new user</button>
+                    <button type="submit" class="btn btn-success btn-lg" id="signup-submit" form="formForNewUser" onclick="newUser()">Add new user</button>
                 </div>
             </div>
         </div>
@@ -221,5 +218,6 @@
         crossorigin="anonymous"></script>
 <script src="static/adminPage.js"></script>
 <script src="static/editUser.js"></script>
+<script src="static/newUser.js"></script>
 </body>
 </html>
