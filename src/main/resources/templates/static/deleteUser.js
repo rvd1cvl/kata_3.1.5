@@ -25,22 +25,22 @@ async function deleteModalData(id) {
     }
 }
 async function deleteUser() {
-    form_del.addEventListener('submit', deletingUser);
-
-    function deletingUser(event) {
-        event.preventDefault();
-        let urlDel = 'http://localhost:8081/admin/users/' + id_del.value;
-        let method = {
-            method: 'DELETE',
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }
-
-
-        fetch(urlDel, method).then(() => {
-            $('#deleteCloseBtn').click();
-            getAdminPage();
+    let urlDel = 'http://localhost:8081/admin/users/' + id_del.value;
+    let method = {
+        method: 'DELETE',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            name: form_del.name.value,
+            lastName: form_del.lastName.value,
+            age: form_del.age.value,
+            email: form_del.email.value,
+            password: form_del.password.value
         })
     }
+    await fetch(urlDel,method).then(() => {
+        $('#deleteCloseBtn').click();
+        getAdminPage();
+    })
 }
