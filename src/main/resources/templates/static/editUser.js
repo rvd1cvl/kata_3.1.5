@@ -25,7 +25,7 @@ async function editModalData(id) {
     }
 }
 async function editUser() {
-    let urlEdit = 'api/admin/users/' + id_ed.value;
+    let urlEdit = 'http://localhost:8081/admin/users/' + id_ed.value;
     let listOfRole = [];
     for (let i=0; i<form_ed.rolesForEditing.options.length; i++) {
         if (form_ed.rolesForEditing.options[i].selected) {
