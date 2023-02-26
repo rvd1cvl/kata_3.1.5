@@ -113,48 +113,44 @@
     </div>
 </div>
 
-<div class="modal fade" th:id="'deleteModal' + ${user.id}" tabindex="-1" aria-labelledby="exampleModalLabel"
-     aria-hidden="true"
-     th:each="user, state : ${users}" th:classappend="${state.odd}">
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <span style="font-family: sans-serif; color: black">Edit user</span>
             </div>
             <div class="modal-body">
-                <form th:action="@{/users/delete}" th:id="'deleteUserFormId' + ${user.id}">
-                    <input type="text" readonly="readonly" name="id" th:value="*{user.id}" class="form-control">
+                <form id="formForDeleting">
+                    <label for="id_del" class="col-form-label">Id</label>
+                    <input id="id_del" type="text" readonly="readonly" name="id" class="form-control">
                     <div class="form-group">
-                        <label th:for="email" class="col-form-label">Email</label>
-                        <input type="text" readonly="readonly" th:value="*{user.email}" class="form-control"
+                        <label for="email_del" class="col-form-label">Email</label>
+                        <input id="email_del" type="text" readonly="readonly" class="form-control"
                                name="email">
                     </div>
                     <div class="form-group">
-                        <label th:for="name" class="col-form-label">First Name</label>
-                        <input type="text" readonly="readonly" th:value="${user.name}" class="form-control" name="name">
+                        <label for="name_del" class="col-form-label">First Name</label>
+                        <input id="name_del" type="text" readonly="readonly" class="form-control" name="name">
                     </div>
                     <div class="form-group">
-                        <label th:for="lastName" class="col-form-label">Last name</label>
-                        <input type="text" readonly="readonly" th:value="${user.lastName}" class="form-control"
+                        <label for="lastName_del" class="col-form-label">Last name</label>
+                        <input id="lastName_del" type="text" readonly="readonly" class="form-control"
                                name="lastName">
                     </div>
                     <div class="form-group">
-                        <label th:for="age" class="col-form-label">Age</label>
-                        <input type="text" readonly="readonly" th:value="${user.age}" class="form-control" name="age">
+                        <label for="age_del" class="col-form-label">Age</label>
+                        <input id="age_del" type="text" readonly="readonly" class="form-control" name="age">
                     </div>
                     <div class="form-group">
-                        <label th:for="password" class="col-form-label">Password</label>
-                        <input type="text" readonly="readonly" th:value="${user.password}" class="form-control"
+                        <label for="password_del" class="col-form-label">Password</label>
+                        <input id="password_del" type="text" readonly="readonly" class="form-control"
                                name="password">
                     </div>
-                    <div class="form-group">
-                        <span th:text="${user.getRolesToString()}"></span>
-                    </div>
+
                 </form>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" th:form="'deleteUserFormId' + ${user.id}" class="btn btn-danger">Delete
-                    </button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="deleteCloseBtn">Close</button>
+                    <button type="submit" class="btn btn-danger" id="deleteBtn" onclick="deleteUser(); getAdminPage()">Delete</button>
                 </div>
             </div>
         </div>
@@ -219,5 +215,6 @@
 <script src="static/adminPage.js"></script>
 <script src="static/editUser.js"></script>
 <script src="static/newUser.js"></script>
+<script src="static/deleteUser.js"></script>
 </body>
 </html>
