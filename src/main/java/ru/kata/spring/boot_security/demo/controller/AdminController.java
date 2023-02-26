@@ -68,7 +68,7 @@ public class AdminController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "users/{id}")
+    @PatchMapping(value = "users/{id}")
     public ResponseEntity<HttpStatus> updateUser(@RequestBody UserDto userDto, @PathVariable("id") Integer oldUserId,
                                                  BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
