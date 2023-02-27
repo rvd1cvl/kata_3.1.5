@@ -54,16 +54,6 @@ public class UserServiceImpl implements UserService {
     }
 
     public void updateUser(User newUser, Integer oldUserId) {
-        User oldUser = entityManager.createQuery("select user from User user where user.id = :id", User.class)
-                .setParameter("id", oldUserId).getSingleResult();
-        oldUser.setEmail(newUser.getEmail());
-        oldUser.setId(oldUserId);
-        oldUser.setName(newUser.getName());
-        oldUser.setLastName(newUser.getLastName());
-        oldUser.setRoles(newUser.getRoles());
-        oldUser.setPassword(newUser.getPassword());
-        oldUser.setAge(newUser.getAge());
-        userRepository.save(oldUser);
     }
 
     @Override

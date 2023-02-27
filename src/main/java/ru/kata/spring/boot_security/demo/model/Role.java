@@ -4,9 +4,7 @@ import org.apache.catalina.User;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Table(name = "roles")
 @Entity
@@ -22,7 +20,7 @@ public class Role implements GrantedAuthority {
 
     @Transient
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
-    private List<User> users = new ArrayList<>();
+    private Set<User> users = new HashSet<>();
 
     public Role() {}
 
@@ -46,11 +44,11 @@ public class Role implements GrantedAuthority {
         this.name = name;
     }
 
-    public List<User> getUsers() {
+    public Set<User> getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(Set<User> users) {
         this.users = users;
     }
 

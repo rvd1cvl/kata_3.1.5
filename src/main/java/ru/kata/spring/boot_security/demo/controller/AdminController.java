@@ -22,17 +22,10 @@ import java.util.List;
 public class AdminController {
 
     private final UserService userService;
-    private final UserRepository userRepository;
-    private final RoleService roleService;
 
-    @PersistenceContext
-    private final EntityManager entityManager;
 
-    public AdminController(UserService userService, UserRepository userRepository, RoleService roleService, EntityManager entityManager) {
+    public AdminController(UserService userService) {
         this.userService = userService;
-        this.userRepository = userRepository;
-        this.roleService = roleService;
-        this.entityManager = entityManager;
     }
 
     @GetMapping("/users")
