@@ -26,12 +26,9 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    @PersistenceContext
-    private final EntityManager entityManager;
 
-    public UserServiceImpl(UserRepository userRepository, EntityManager entityManager) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.entityManager = entityManager;
     }
 
 
@@ -54,6 +51,13 @@ public class UserServiceImpl implements UserService {
     }
 
     public void updateUser(User newUser, Integer oldUserId) {
+        User oldUser = userRepository.getById(oldUserId);
+        oldUser.setName(newUser.getName());
+        oldUser.setLastName(newUser.getLastName());
+        oldUser.setPassword(newUser.getPassword());
+        oldUser.setAge(newUser.getAge());
+        oldUser.setRoles(newUser.getRoles());
+        userRepository.save(oldUser);
     }
 
     @Override

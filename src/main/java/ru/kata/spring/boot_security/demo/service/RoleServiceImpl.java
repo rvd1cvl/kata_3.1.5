@@ -14,11 +14,10 @@ import java.util.List;
 @Transactional
 public class RoleServiceImpl implements RoleService {
     private final RoleRepository roleRepository;
-    private final EntityManager entityManager;
 
-    public RoleServiceImpl(RoleRepository roleRepository, EntityManager entityManager) {
+    public RoleServiceImpl(RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
-        this.entityManager = entityManager;
+
     }
 
     @Override
@@ -30,12 +29,10 @@ public class RoleServiceImpl implements RoleService {
     public List<Role> getRolesById(Integer[] rolesId) {
         List<Role> roleResult = new ArrayList<>();
         if (rolesId == null) {
-            roleResult.add(entityManager.find(Role.class, 1));
+            roleResult.add(roleRepository.getById(1));
         } else {
             for (int id : rolesId) {
-                TypedQuery<Role> query = entityManager.createQuery("select role from Role role where role.id= :id", Role.class)
-                        .setParameter("id", id);
-                Role result = query.getResultList().stream().filter(role -> role.getId() == id).findAny().orElse(null);
+                Role result = roleRepository.getById(id);
                 roleResult.add(result);
             }
         }
